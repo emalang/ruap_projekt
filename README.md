@@ -33,7 +33,7 @@ For usability reasons, the web interface focuses on the **8 most informative fea
 ## Machine Learning Model
  
 - **Algorithm:** Logistic Regression  
-- **Preprocessing:** One-Hot Encoding (`handle_unknown="ignore"`)  
+- **Preprocessing:** One-Hot Encoding
 - **Accuracy:** ~99% on test data  
 - **Deployment:** Azure Machine Learning – Managed Online Endpoint  
  
