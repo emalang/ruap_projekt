@@ -1,11 +1,157 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8" />
   <title>Mushroom Predictor</title>
+  <style>
+  body {
+    font-family: Arial, sans-serif;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+
+    /* POZADINSKA SLIKA */
+    background-image: url("{% static 'predictor/bg.jpg.png' %}");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  h1 {
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 900px;
+
+    /* GLASS / BLUR EFEKT */
+    background: rgba(255, 255, 255, 0.78);   /* bijelo-bež */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    border-radius: 16px;
+    padding: 28px;
+
+    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  label {
+    display: block;
+    font-size: 14px;
+    opacity: 0.85;
+    margin-bottom: 6px;
+  }
+
+  select, input {
+    width: 100%;
+    padding: 10px;
+    font-size: 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background: rgba(255,255,255,0.9);
+  }
+
+  button {
+    margin-top: 16px;
+    padding: 12px 18px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    background: #fff;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .msg {
+    margin-top: 18px;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 16px;
+  }
+
+  .ok {
+    background: rgba(233, 247, 239, 0.95);
+    border: 1px solid #2ecc71;
+    color: #1e8449;
+  }
+
+  .err {
+    background: rgba(253, 236, 234, 0.95);
+    border: 1px solid #e74c3c;
+    color: #922b21;
+  }
+
+  .note {
+    font-size: 13px;
+    opacity: 0.8;
+    margin-top: 12px;
+  }
+</style>
+
+
 </head>
 <body>
-  <h1>Mushroom Predictor</h1>
-  <p>Aplikacija radi ✅</p>
+  <div class="card">
+    <h1>Can I Eat This Mushroom?</h1>
+
+    <!-- FORM -->
+    <form method="post">
+      {% csrf_token %}
+      <div class="grid">
+        {% for field in form %}
+          {% if field.field.widget.input_type != "hidden" %}
+            <div>
+              <label>{{ field.label }}</label>
+              {{ field }}
+            </div>
+          {% else %}
+            {{ field }}
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <button type="submit">Predict</button>
+
+    </form>
+
+    {% if result %}
+      <div class="msg {% if result == 'POISONOUS' %}err{% else %}ok{% endif %}">
+        <b>Result:</b> {{ result }}
+      </div>
+    {% endif %}
+
+
+
+      <div style="margin-top: 24px; text-align: center;">
+
+  <img 
+    src="{% static 'predictor/Cap (Pileus)-Photoroom.png' %}" 
+    alt="Mushroom parts legend"
+    style="
+      max-width: 100%;
+      width: 420px;
+    "
+  />
+    </div>
+
+
+
+  </div>
 </body>
 </html>
